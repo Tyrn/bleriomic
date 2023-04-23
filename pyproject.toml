@@ -16,8 +16,6 @@ exclude = '''
     | buck-out
     | build
     | dist
-    | i2c_lcd\.py
-    | lcd_api\.py
   )/
 )
 '''
