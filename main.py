@@ -1,24 +1,9 @@
 from machine import Pin, SoftI2C
 from machine import Timer
-from time import sleep_ms, sleep
+from time import sleep_ms
 import ubluetooth
 from lcd_api import LcdApi
 from i2c_lcd import I2cLcd
-
-# HD44780 is here.
-
-# sdaPIN = Pin(21)  #for ESP32
-# sclPIN = Pin(22)
-
-# i2c=SoftI2C(sda=sdaPIN, scl=sclPIN, freq=10000)
-
-# devices = i2c.scan()
-# if len(devices) == 0:
-#    print("No i2c device !")
-# else:
-#    print('i2c devices found:',len(devices))
-# for device in devices:
-#    print("At address: ",hex(device))
 
 I2C_ADDR = 0x27
 totalRows = 2
@@ -27,27 +12,8 @@ totalColumns = 16
 i2c = SoftI2C(
     scl=Pin(22), sda=Pin(21), freq=10000
 )  # initializing the I2C method for ESP32
-# i2c = I2C(scl=Pin(5), sda=Pin(4), freq=10000)       #initializing the I2C method for ESP8266
 
 lcd = I2cLcd(i2c, I2C_ADDR, totalRows, totalColumns)
-
-# while True:
-#    print("Enter while True")
-#    lcd.putstr("I2C LCD Tutorial")
-#    print("sleep(2:1)")
-#    sleep(2)
-#    lcd.clear()
-#    lcd.putstr("Lets Count 0-10!")
-#    print("sleep(2:2)")
-#    sleep(2)
-#    lcd.clear()
-#    for i in range(11):
-#        lcd.putstr(str(i))
-#        print("sleep(1)")
-#        sleep(1)
-#        lcd.clear()
-
-# BLE Hello is here.
 
 ble_msg = ""
 is_ble_connected = False
