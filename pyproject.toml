@@ -19,4 +19,9 @@ exclude = '''
   )/
 )
 '''
-force-exclude = '(i2c_lcd.py|lcd_api.py)'
+force-exclude = '''
+(
+  i2c_lcd.py
+  | lcd_api.py
+)
+'''
