@@ -21,7 +21,7 @@ exclude = '''
 '''
 force-exclude = '''
 (
-  i2c_lcd.py
+    i2c_lcd.py
   | lcd_api.py
 )
 '''
