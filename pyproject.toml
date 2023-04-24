@@ -3,11 +3,10 @@ line-length = 88
 target-version = ['py310']
 include = '\.pyi?$'
 exclude = '''
-
 (
   /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
+      \.eggs          # Exclude a few common directories in the
+    | \.git           # root of the project.
     | \.hg
     | \.mypy_cache
     | \.tox
@@ -21,7 +20,7 @@ exclude = '''
 '''
 force-exclude = '''
 (
-    i2c_lcd.py
-  | lcd_api.py
+    i2c_lcd.py        # Exclude a few files in the
+  | lcd_api.py        # root of the project.
 )
 '''
