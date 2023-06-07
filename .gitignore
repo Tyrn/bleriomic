@@ -1,6 +1,7 @@
 # Poetry
 /dist/
 /.venv/
+/.micropy/
 __pycache__/
 __pypackages__/
 *.egg-info/
@@ -8,7 +9,6 @@ __pypackages__/
 .coverage
 
 # Special cases
-procrustes
 *.pkg.tar.zst
 *.deb
 
