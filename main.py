@@ -6,20 +6,20 @@ from lcd_api import LcdApi
 from i2c_lcd import I2cLcd
 
 I2C_ADDR = 0x27
-totalRows = 2
-totalColumns = 16
+TOTAL_ROWS = 2
+TOTAL_COLUMNS = 16
 
-i2c = SoftI2C(
+SOFT_I2C_LCD = SoftI2C(
     scl=Pin(22), sda=Pin(21), freq=10000
 )  # initializing the I2C method for ESP32
 
-lcd = I2cLcd(i2c, I2C_ADDR, totalRows, totalColumns)
+LCD = I2cLcd(SOFT_I2C_LCD, I2C_ADDR, TOTAL_ROWS, TOTAL_COLUMNS)
 
-ble_msg = ""
-is_ble_connected = False
+BLE_MSG = ""
+IS_BLE_CONNECTED = False
 
 
-class ESP32_BLE:
+class Esp32Ble:
     def __init__(self, name):
         # Create internal objects for the onboard LED
         # blinking when no BLE device is connected
@@ -36,14 +36,14 @@ class ESP32_BLE:
         self.advertiser()
 
     def connected(self):
-        global is_ble_connected
-        is_ble_connected = True
+        global IS_BLE_CONNECTED
+        IS_BLE_CONNECTED = True
         self.led.value(1)
         self.timer1.deinit()
 
     def disconnected(self):
-        global is_ble_connected
-        is_ble_connected = False
+        global IS_BLE_CONNECTED
+        IS_BLE_CONNECTED = False
         self.timer1.init(
             period=400,
             mode=Timer.PERIODIC,
@@ -51,7 +51,7 @@ class ESP32_BLE:
         )
 
     def ble_irq(self, event, data):
-        global ble_msg
+        global BLE_MSG
 
         if event == 1:  # _IRQ_CENTRAL_CONNECT:
             # A central has connected to this peripheral
@@ -65,39 +65,39 @@ class ESP32_BLE:
         elif event == 3:  # _IRQ_GATTS_WRITE:
             # A client has written to this characteristic or descriptor.
             buffer = self.ble.gatts_read(self.rx)
-            ble_msg = buffer.decode("UTF-8").strip()
+            BLE_MSG = buffer.decode("UTF-8").strip()
 
     def register(self):
         # Nordic UART Service (NUS)
-        NUS_UUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
-        RX_UUID = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
-        TX_UUID = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
+        nus_uuid = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
+        rx_uuid = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
+        tx_uuid = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
 
-        BLE_NUS = ubluetooth.UUID(NUS_UUID)
-        BLE_RX = (ubluetooth.UUID(RX_UUID), ubluetooth.FLAG_WRITE)
-        BLE_TX = (ubluetooth.UUID(TX_UUID), ubluetooth.FLAG_NOTIFY)
+        ble_nus = ubluetooth.UUID(nus_uuid)
+        ble_rx = (ubluetooth.UUID(rx_uuid), ubluetooth.FLAG_WRITE)
+        ble_tx = (ubluetooth.UUID(tx_uuid), ubluetooth.FLAG_NOTIFY)
 
-        BLE_UART = (
-            BLE_NUS,
+        ble_uart = (
+            ble_nus,
             (
-                BLE_TX,
-                BLE_RX,
+                ble_tx,
+                ble_rx,
             ),
         )
-        SERVICES = (BLE_UART,)
+        services = (ble_uart,)
         (
             (
                 self.tx,
                 self.rx,
             ),
-        ) = self.ble.gatts_register_services(SERVICES)
+        ) = self.ble.gatts_register_services(services)
 
     def send(self, data):
         self.ble.gatts_notify(0, self.tx, data + "\n")
 
     def advertiser(self):
         name = bytes(self.name, "UTF-8")
-        adv_data = bytearray("\x02\x01\x02") + bytearray((len(name) + 1, 0x09)) + name
+        adv_data = bytearray(b"\x02\x01\x02") + bytearray((len(name) + 1, 0x09)) + name
         self.ble.gap_advertise(100, adv_data)
         print(adv_data)
         print("\r\n")
@@ -113,15 +113,15 @@ class ESP32_BLE:
         # https://docs.silabs.com/bluetooth/latest/general/adv-and-scanning/bluetooth-adv-data-basics
 
 
-ble = ESP32_BLE("ESP32BLE")
-greeting = "Hola Kitty!"
+BLE = Esp32Ble("ESP32BLE")
+GREETING = "Hola Kitty!"
 
 while True:
-    if is_ble_connected:
-        ble.send(greeting)
-        lcd.putstr(greeting)
+    if IS_BLE_CONNECTED:
+        BLE.send(GREETING)
+        LCD.putstr(GREETING)
     else:
-        lcd.putstr("Advertising...")
+        LCD.putstr("Advertising...")
     sleep_ms(1500)
-    lcd.clear()
+    LCD.clear()
     sleep_ms(500)
