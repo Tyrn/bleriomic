@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "bleriomic"
+version = "0.1.0"
+description = ""
+authors = ["Tyrn <a@b.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+micropy-cli = "^4.2.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
