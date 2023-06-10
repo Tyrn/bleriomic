@@ -117,7 +117,7 @@ BLE = Esp32Ble("ESP32BLE")
 GREETING = "Hola Kitty!"
 
 
-def run():
+def loop():
     while True:
         if IS_BLE_CONNECTED:
             BLE.send(GREETING)

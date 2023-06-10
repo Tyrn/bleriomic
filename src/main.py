@@ -1,3 +1,3 @@
-import nus_kitty as loop
+import nus_kitty as peripheral
 
-loop.run()
+peripheral.loop()
