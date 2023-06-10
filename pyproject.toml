@@ -6,7 +6,7 @@ authors = ["Tyrn <a@b.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.12"
 
 [tool.poetry.group.dev.dependencies]
 micropy-cli = "^4.2.1"
