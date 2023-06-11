@@ -5,16 +5,6 @@ import ubluetooth
 from lcd_api import LcdApi
 from i2c_lcd import I2cLcd
 
-I2C_ADDR = 0x27
-TOTAL_ROWS = 2
-TOTAL_COLUMNS = 16
-
-SOFT_I2C_LCD = SoftI2C(
-    scl=Pin(22), sda=Pin(21), freq=10000
-)  # initializing the I2C method for ESP32
-
-LCD = I2cLcd(SOFT_I2C_LCD, I2C_ADDR, TOTAL_ROWS, TOTAL_COLUMNS)
-
 
 class Esp32Ble:
     def __init__(self, name):
@@ -111,18 +101,27 @@ class Esp32Ble:
         # https://docs.silabs.com/bluetooth/latest/general/adv-and-scanning/bluetooth-adv-data-basics
 
 
-BLE = Esp32Ble("ESP32BLE")
+I2C_ADDR = 0x27
+TOTAL_ROWS = 2
+TOTAL_COLUMNS = 16
 
 
 def loop():
+    lcd = I2cLcd(
+        SoftI2C(scl=Pin(22), sda=Pin(21), freq=10000),
+        I2C_ADDR,
+        TOTAL_ROWS,
+        TOTAL_COLUMNS,
+    )
+    ble = Esp32Ble("ESP32BLE")
     greeting = "Hola Kitty!"
 
     while True:
-        if BLE.is_connected():
-            BLE.send(greeting)
-            LCD.putstr(greeting)
+        if ble.is_connected():
+            ble.send(greeting)
+            lcd.putstr(greeting)
         else:
-            LCD.putstr("Advertising...")
+            lcd.putstr("Advertising...")
         sleep_ms(1500)
-        LCD.clear()
+        lcd.clear()
         sleep_ms(500)
