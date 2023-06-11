@@ -16,7 +16,6 @@ SOFT_I2C_LCD = SoftI2C(
 LCD = I2cLcd(SOFT_I2C_LCD, I2C_ADDR, TOTAL_ROWS, TOTAL_COLUMNS)
 
 BLE_MSG = ""
-IS_BLE_CONNECTED = False
 
 
 class Esp32Ble:
@@ -27,6 +26,7 @@ class Esp32Ble:
         self.led = Pin(2, Pin.OUT)
         self.timer1 = Timer(0)
 
+        self._is_connected = False
         self.name = name
         self.ble = ubluetooth.BLE()
         self.ble.active(True)
@@ -35,15 +35,16 @@ class Esp32Ble:
         self.register()
         self.advertiser()
 
+    def is_connected(self):
+        return self._is_connected
+
     def connected(self):
-        global IS_BLE_CONNECTED
-        IS_BLE_CONNECTED = True
+        self._is_connected = True
         self.led.value(1)
         self.timer1.deinit()
 
     def disconnected(self):
-        global IS_BLE_CONNECTED
-        IS_BLE_CONNECTED = False
+        self._is_connected = False
         self.timer1.init(
             period=400,
             mode=Timer.PERIODIC,
@@ -119,7 +120,7 @@ GREETING = "Hola Kitty!"
 
 def loop():
     while True:
-        if IS_BLE_CONNECTED:
+        if BLE.is_connected():
             BLE.send(GREETING)
             LCD.putstr(GREETING)
         else:
