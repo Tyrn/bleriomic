@@ -15,8 +15,6 @@ SOFT_I2C_LCD = SoftI2C(
 
 LCD = I2cLcd(SOFT_I2C_LCD, I2C_ADDR, TOTAL_ROWS, TOTAL_COLUMNS)
 
-BLE_MSG = ""
-
 
 class Esp32Ble:
     def __init__(self, name):
@@ -26,6 +24,7 @@ class Esp32Ble:
         self.led = Pin(2, Pin.OUT)
         self.timer1 = Timer(0)
 
+        self._ble_msg = ""
         self._is_connected = False
         self.name = name
         self.ble = ubluetooth.BLE()
@@ -52,8 +51,6 @@ class Esp32Ble:
         )
 
     def ble_irq(self, event, data):
-        global BLE_MSG
-
         if event == 1:  # _IRQ_CENTRAL_CONNECT:
             # A central has connected to this peripheral
             self.connected()
@@ -66,7 +63,7 @@ class Esp32Ble:
         elif event == 3:  # _IRQ_GATTS_WRITE:
             # A client has written to this characteristic or descriptor.
             buffer = self.ble.gatts_read(self.rx)
-            BLE_MSG = buffer.decode("UTF-8").strip()
+            self._ble_msg = buffer.decode("UTF-8").strip()
 
     def register(self):
         # Nordic UART Service (NUS)
@@ -115,14 +112,15 @@ class Esp32Ble:
 
 
 BLE = Esp32Ble("ESP32BLE")
-GREETING = "Hola Kitty!"
 
 
 def loop():
+    greeting = "Hola Kitty!"
+
     while True:
         if BLE.is_connected():
-            BLE.send(GREETING)
-            LCD.putstr(GREETING)
+            BLE.send(greeting)
+            LCD.putstr(greeting)
         else:
             LCD.putstr("Advertising...")
         sleep_ms(1500)
