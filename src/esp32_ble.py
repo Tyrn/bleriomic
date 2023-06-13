@@ -30,12 +30,19 @@ class Esp32Ble:
         self.led.value(1)
         self.timer1.deinit()
 
+    @staticmethod
+    def toggle_led_value(led):
+        current_value = led.value()
+        led.value(not current_value)
+        led.value(current_value)
+        led.value(not current_value)
+
     def disconnected(self):
         self._is_connected = False
         self.timer1.init(
-            period=400,
+            period=40,
             mode=Timer.PERIODIC,
-            callback=lambda t: self.led.value(not self.led.value()),
+            callback=lambda t: self.toggle_led_value(self.led),
         )
 
     def ble_irq(self, event, data):
