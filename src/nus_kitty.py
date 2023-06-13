@@ -4,6 +4,7 @@ from time import sleep_ms
 import ubluetooth
 from lcd_api import LcdApi
 from i2c_lcd import I2cLcd
+import uuid
 
 
 class Esp32Ble:
@@ -57,13 +58,9 @@ class Esp32Ble:
 
     def register(self):
         # Nordic UART Service (NUS)
-        nus_uuid = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
-        rx_uuid = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
-        tx_uuid = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
-
-        ble_nus = ubluetooth.UUID(nus_uuid)
-        ble_rx = (ubluetooth.UUID(rx_uuid), ubluetooth.FLAG_WRITE)
-        ble_tx = (ubluetooth.UUID(tx_uuid), ubluetooth.FLAG_NOTIFY)
+        ble_nus = ubluetooth.UUID(uuid.Nus.Service)
+        ble_rx = (ubluetooth.UUID(uuid.Nus.Rx), ubluetooth.FLAG_WRITE)
+        ble_tx = (ubluetooth.UUID(uuid.Nus.Tx), ubluetooth.FLAG_NOTIFY)
 
         ble_uart = (
             ble_nus,
