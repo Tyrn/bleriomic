@@ -4,7 +4,7 @@ A template Bluetooth BLE peripheral on ESP32 and MicroPython
 
 ## Misc
 
-- Reverence: [1](https://randomnerdtutorials.com/micropython-esp32-bluetooth-low-energy-ble/)
+- Reference: [1](https://randomnerdtutorials.com/micropython-esp32-bluetooth-low-energy-ble/)
 
 - [I2C LCD MicroPython Libraries](https://microcontrollerslab.com/i2c-lcd-esp32-esp8266-micropython-tutorial/),
   [Source?](https://github.com/Bucknalla/micropython-i2c-lcd)
