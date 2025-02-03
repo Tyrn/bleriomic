@@ -6,15 +6,19 @@ authors = ["Tyrn <a@b.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.12"
+python = "^3.12"
 
 [tool.poetry.group.dev.dependencies]
-micropy-cli = "^4.2.1"
-pytest = "^7.3.1"
-pytest-mock = "^3.10.0"
-rshell = "^0.0.31"
-pylint = "^2.17.4"
-micropython-esp32-stubs = "^1.20.0.post1"
+micropy-cli = "^4.2.2"
+pytest = "^8.3.4"
+pytest-mock = "^3.14.0"
+rshell = "^0.0.36"
+adafruit-ampy = "^1.1.0"
+pylint = "^3.3.4"
+ruff = "^0.9.4"
+black = "^25.1.0"
+micropython-esp32-stubs = "^1.23.0.post2"
+micropython-stdlib-stubs = "^1.23.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -22,7 +26,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 88
-target-version = ['py311']
+target-version = ['py312']
 include = '\.pyi?$'
 exclude = '''
 (
@@ -46,4 +50,3 @@ force-exclude = '''
   | lcd_api.py        # root of the project.
 )
 '''
-
