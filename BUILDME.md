@@ -52,4 +52,10 @@ esp32_ble.py lcd_api.py   nus_kitty.py
 >
 ```
 
+or just
+
+```
+> cp src/* /pyboard/
+```
+
 - Exit `rshell` with Ctrl+D
