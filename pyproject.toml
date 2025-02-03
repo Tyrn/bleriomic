@@ -4,15 +4,16 @@ version = "0.1.0"
 description = ""
 authors = ["Tyrn <a@b.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
 
 [tool.poetry.group.dev.dependencies]
-micropy-cli = "^4.2.2"
+#micropy-cli = "^4.2.2"
 pytest = "^8.3.4"
 pytest-mock = "^3.14.0"
-rshell = "^0.0.36"
+#rshell = "^0.0.36"
 adafruit-ampy = "^1.1.0"
 pylint = "^3.3.4"
 ruff = "^0.9.4"
