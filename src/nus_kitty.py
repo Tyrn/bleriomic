@@ -1,8 +1,8 @@
 from machine import Pin, SoftI2C
-from time import sleep_ms
-from i2c_lcd import I2cLcd
-from esp32_ble import Esp32Ble
+from utime import sleep_ms
 
+from esp32_ble import Esp32Ble
+from i2c_lcd import I2cLcd
 
 I2C_ADDR = 0x27
 TOTAL_ROWS = 2
