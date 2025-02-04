@@ -16,7 +16,7 @@ def loop():
         TOTAL_ROWS,
         TOTAL_COLUMNS,
     )
-    ble = Esp32Ble("ESP32BLE")
+    ble = Esp32Ble("Kitty's Python")
     greeting = "Hola Kitty!"
 
     while True:
