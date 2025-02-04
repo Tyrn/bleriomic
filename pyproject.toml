@@ -7,7 +7,7 @@ readme = "README.md"
 package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.13"
 
 [tool.poetry.group.dev.dependencies]
 #micropy-cli = "^4.2.2"
