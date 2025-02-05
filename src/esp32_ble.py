@@ -45,7 +45,7 @@ class Esp32Ble:
             callback=lambda t: self.toggle_led_value(self.led),
         )
 
-    def ble_irq(self, event: int, _):
+    def ble_irq(self, event: int, _data: bytes):
         if event == 1:  # _IRQ_CENTRAL_CONNECT:
             # A central has connected to this peripheral
             self.connected()
