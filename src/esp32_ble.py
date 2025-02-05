@@ -1,20 +1,20 @@
-from machine import Pin
-from machine import Timer
-import ubluetooth
 import uuid
+
+import ubluetooth
+from machine import Pin, Timer
 
 
 class Esp32Ble:
-    def __init__(self, name):
+    def __init__(self, name: str):
         # Create internal objects for the onboard LED
         # blinking when no BLE device is connected
         # stable ON when connected
-        self.led = Pin(2, Pin.OUT)
-        self.timer1 = Timer(0)
+        self.led: Pin = Pin(2, Pin.OUT)
+        self.timer1: Timer = Timer(0)
 
-        self._ble_msg = ""
-        self._is_connected = False
-        self.name = name
+        self._ble_msg: str = ""
+        self._is_connected: bool = False
+        self.name: str = name
         self.ble = ubluetooth.BLE()
         self.ble.active(True)
         self.disconnected()
@@ -27,15 +27,15 @@ class Esp32Ble:
 
     def connected(self):
         self._is_connected = True
-        self.led.value(1)
+        _ = self.led.value(1)
         self.timer1.deinit()
 
     @staticmethod
-    def toggle_led_value(led):
+    def toggle_led_value(led: Pin):
         current_value = led.value()
-        led.value(not current_value)
-        led.value(current_value)
-        led.value(not current_value)
+        _ = led.value(not current_value)
+        _ = led.value(current_value)
+        _ = led.value(not current_value)
 
     def disconnected(self):
         self._is_connected = False
@@ -45,7 +45,7 @@ class Esp32Ble:
             callback=lambda t: self.toggle_led_value(self.led),
         )
 
-    def ble_irq(self, event, data):
+    def ble_irq(self, event: int, _):
         if event == 1:  # _IRQ_CENTRAL_CONNECT:
             # A central has connected to this peripheral
             self.connected()
