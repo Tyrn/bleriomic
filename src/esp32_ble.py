@@ -18,7 +18,7 @@ class Esp32Ble:
         self.ble = ubluetooth.BLE()
         self.ble.active(True)
         self.disconnected()
-        self.ble.irq(self.ble_irq)
+        _ = self.ble.irq(self.ble_irq)
         self.register()
         self.advertiser()
 
