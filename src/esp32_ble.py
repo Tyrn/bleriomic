@@ -1,7 +1,7 @@
-import uuid
-
 import ubluetooth
 from machine import Pin, Timer
+
+import uuids
 
 
 class Esp32Ble:
@@ -62,9 +62,9 @@ class Esp32Ble:
 
     def register(self):
         # Nordic UART Service (NUS)
-        ble_nus = ubluetooth.UUID(uuid.Nus.Service)
-        ble_rx = (ubluetooth.UUID(uuid.Nus.Rx), ubluetooth.FLAG_WRITE)
-        ble_tx = (ubluetooth.UUID(uuid.Nus.Tx), ubluetooth.FLAG_NOTIFY)
+        ble_nus = ubluetooth.UUID(uuids.Nus.Service)
+        ble_rx = (ubluetooth.UUID(uuids.Nus.Rx), ubluetooth.FLAG_WRITE)
+        ble_tx = (ubluetooth.UUID(uuids.Nus.Tx), ubluetooth.FLAG_NOTIFY)
 
         ble_uart = (
             ble_nus,
