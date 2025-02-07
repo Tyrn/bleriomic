@@ -47,7 +47,8 @@ exclude = '''
 '''
 force-exclude = '''
 (
-    i2c_lcd.py        # Exclude a few files in the
+    boot.py
+  | i2c_lcd.py        # Exclude a few files in the
   | lcd_api.py        # root of the project.
 )
 '''
